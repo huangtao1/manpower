@@ -1,0 +1,303 @@
+<html lang="en">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8">
+    <title>OMS|{% block title %}{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    {% block head %}
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="{{ url_for('static', filename='assets/global/plugins/font-awesome/css/font-awesome.min.css') }}"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/global/plugins/simple-line-icons/simple-line-icons.min.css') }}"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/global/plugins/bootstrap/css/bootstrap.min.css') }}"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/global/plugins/uniform/css/uniform.default.css') }}"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/global/plugins/bootstrap-switch/css/bootstrap-switch.min.css') }}"
+          rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+    <link href="{{ url_for('static', filename='assets/global/plugins/jqvmap/jqvmap/jqvmap.css') }}" rel="stylesheet"
+          type="text/css">
+    <link href="{{ url_for('static', filename='assets/global/plugins/morris/morris.css') }}" rel="stylesheet"
+          type="text/css">
+    <!-- END PAGE LEVEL PLUGIN STYLES -->
+    <!-- BEGIN PAGE STYLES -->
+    <link href="{{ url_for('static', filename='assets/admin/pages/css/tasks.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <!-- END PAGE STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <!-- DOC: To use 'rounded corners' style just load 'components-rounded.css' stylesheet instead of 'components.css' in the below style tag -->
+    <link href="{{ url_for('static', filename='assets/global/css/components-md.css') }}" id="style_components"
+          rel="stylesheet" type="text/css"/>
+    <link href="{{ url_for('static', filename='assets/global/css/components-rounded.css') }}" id="style_componentss"
+          rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/global/css/plugins.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='assets/admin/layout3/css/layout.css') }}" rel="stylesheet"
+          type="text/css">
+    <link href="{{ url_for('static', filename='assets/admin/layout3/css/themes/default.css') }}" rel="stylesheet"
+          type="text/css" id="style_color">
+    <link href="{{ url_for('static', filename='assets/admin/layout3/css/custom.css') }}" rel="stylesheet"
+          type="text/css">
+    <!-- END THEME STYLES -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='website/favicon.ico') }}">
+
+    {% endblock %}
+</head>
+<!-- END HEAD -->
+
+<body>
+<!-- BEGIN HEADER -->
+<div class="page-header">
+    <!-- BEGIN HEADER TOP -->
+    <div class="page-header-top">
+        <div class="container">
+            <!-- BEGIN LOGO -->
+            <div class="page-logo">
+                <a><img src="{{ url_for('static',filename='assets/admin/layout3/img/logo-default.png') }}" alt="logo"
+                        class="logo-default"></a>
+            </div>
+            <!-- END LOGO -->
+            <!-- BEGIN RESPONSIVE MENU TOGGLER -->
+            <a href="javascript:;" class="menu-toggler"></a>
+            <!-- END RESPONSIVE MENU TOGGLER -->
+            <!-- BEGIN TOP NAVIGATION MENU -->
+            <div class="top-menu">
+                <ul class="nav navbar-nav pull-right">
+                    <!-- BEGIN NOTIFICATION DROPDOWN
+                    <li class="dropdown dropdown-extended dropdown-dark dropdown-notification"
+                        id="header_notification_bar">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <i class="icon-bell"></i>
+                            <span class="badge badge-default">1</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="external">
+                                <h3>You have <strong>1 pending</strong> tasks</h3>
+                                <a href="javascript:;">view all</a>
+                            </li>
+                            <li>
+                                <ul class="dropdown-menu-list scroller" style="height: 250px;"
+                                    data-handle-color="#637283">
+                                    <li>
+                                        <a href="javascript:;">
+                                            <span class="time">9 days</span>
+                                            <span class="details">
+                                        <span class="label label-sm label-icon label-danger">
+                                            <i class="fa fa-bolt"></i>
+                                        </span>
+                                            Storage server failed. </span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    END NOTIFICATION DROPDOWN -->
+
+                    <li class="droddown dropdown-separator">
+                        <span class="separator"></span>
+                    </li>
+                    <!-- BEGIN USER LOGIN DROPDOWN -->
+                    <li class="dropdown dropdown-user dropdown-dark">
+                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown"
+                           data-close-others="true">
+                            <img alt="" class="img-circle"
+                                 src="{{ session['user'].avatar }}">
+                            <span class="username username-hide-mobile">{{ session['user'].display_name }}</span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-default">
+                            <li>
+                                <a href="{{ url_for('auth.profile') }}">
+                                    <i class="icon-user"></i> My Profile </a>
+                            </li>
+                            <li class="divider">
+                            </li>
+                            <li>
+                                <a href="{{ url_for('auth.lock_screen') }}">
+                                    <i class="icon-lock"></i> Lock Screen </a>
+                            </li>
+                            <li>
+                                <a href="{{ url_for('auth.logout') }}">
+                                    <i class="icon-key"></i> Log Out </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- END USER LOGIN DROPDOWN -->
+                </ul>
+            </div>
+            <!-- END TOP NAVIGATION MENU -->
+        </div>
+    </div>
+    <!-- END HEADER TOP -->
+    <!-- BEGIN HEADER MENU -->
+    <div class="page-header-menu">
+        <div class="container">
+            <!-- BEGIN MEGA MENU -->
+            <!-- DOC: Apply "hor-menu-light" class after the "hor-menu" class below to have a horizontal menu with white background -->
+            <!-- DOC: Remove data-hover="dropdown" and data-close-others="true" attributes below to disable the dropdown opening on mouse hover -->
+            <div class="hor-menu ">
+                <ul class="nav navbar-nav">
+                    <li class="active">
+                        <a href="{{ url_for(session['index_page']) }}">Dashboard</a>
+                    </li>
+                    {% for parent in session['menu'] %}
+                    <li class="menu-dropdown classic-menu-dropdown ">
+                        <a data-hover="megamenu-dropdown" data-close-others="true" data-toggle="dropdown"
+                           href="javascript:;">
+                            <i class="{{ parent.style
+                            or
+                            'icon-basket' }}"></i>
+                            {{ parent.name }}
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% for child in parent['children'] %}
+                            <li>
+                                <a href="{{ url_for(child['url']) }}">{{ child['name'] }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <!-- END MEGA MENU -->
+        </div>
+    </div>
+    <!-- END HEADER MENU -->
+</div>
+<!-- END HEADER -->
+<!-- BEGIN PAGE CONTAINER -->
+<div class="page-container">
+    <!-- BEGIN PAGE HEAD -->
+    <div class="page-head">
+        <div class="container">
+            <!-- BEGIN PAGE TITLE -->
+            <div class="page-title">
+                {% block page_title %}{% endblock %}
+            </div>
+            <!-- END PAGE TITLE -->
+        </div>
+    </div>
+    <!-- END PAGE HEAD -->
+    <!-- BEGIN PAGE CONTENT -->
+    <div class="page-content">
+        <div class="container">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+            {% for category, message in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                {{ message }}
+            </div>
+            {% endfor %}
+            {% endif %}
+            {% endwith %}
+            {% block page_content %}{% endblock %}
+        </div>
+
+    </div>
+</div>
+<!-- END PAGE CONTAINER -->
+<!-- BEGIN FOOTER -->
+<div class="page-footer">
+    <div class="container">
+        2018 &copy; ORARO Copyright,All rights reserved.
+    </div>
+</div>
+<div class="scroll-to-top">
+    <i class="icon-arrow-up"></i>
+</div>
+<!-- END FOOTER -->
+<!-- BEGIN JAVASCRIPTS (Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="{{ url_for('static', filename='assets/global/plugins/respond.min.js')}}"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/excanvas.min.js')}}"></script>
+<![endif]-->
+<link href="{{ url_for('static', filename='assets/global/plugins/font-awesome/css/font-awesome.min.css') }}"
+      rel="stylesheet" type="text/css">
+<script src="{{ url_for('static', filename='assets/global/plugins/jquery.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/jquery-migrate.min.js') }}"
+        type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="{{ url_for('static', filename='assets/global/plugins/jquery-ui/jquery-ui.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap/js/bootstrap.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/jquery.blockui.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/jquery.cokie.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/uniform/jquery.uniform.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"
+        type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<script src="{{ url_for('static', filename='assets/global/scripts/metronic.js') }}" type="text/javascript"></script>
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="{{ url_for('static', filename='assets/global/plugins/bootbox/bootbox.min.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/admin/layout3/scripts/layout.js') }}"
+        type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/admin/layout3/scripts/demo.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/admin/pages/scripts/index3.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', filename='assets/admin/pages/scripts/tasks.js') }}" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script>
+    jQuery(document).ready(function () {
+        Metronic.init(); // init metronic core componets
+        Layout.init(); // init layout
+        Demo.init(); // init demo(theme settings page)
+    });
+
+    function show_mask() {
+        //$.blockUI.defaults.overlayCSS.opacity = '0.3';
+        $.blockUI({message: '<img src="/static/website/loading.gif" >'});
+    }
+
+    function unshow_mask() {
+        $.unblockUI();
+    }
+
+    // 去除字符串首尾空格
+    function trimStr(str) {
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+
+    //判断当前字符串是否以str开始 先判断是否存在function是避免和js原生方法冲突，自定义方法的效率不如原生的高
+    if (typeof String.prototype.startsWith != 'function') {
+        String.prototype.startsWith = function (str) {
+            return this.slice(0, str.length) == str;
+        };
+    }
+
+    //判断当前字符串是否以str结束
+    if (typeof String.prototype.endsWith != 'function') {
+        String.prototype.endsWith = function (str) {
+            return this.slice(-str.length) == str;
+        };
+    }
+</script>
+{% block page_script %}{% endblock %}
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

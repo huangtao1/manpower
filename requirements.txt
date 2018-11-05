@@ -1,0 +1,24 @@
+flask
+#login module
+flask-login
+#csrf
+flask-wtf
+#ladp
+ldap3
+#email
+flask-mail
+#db
+flask-sqlalchemy
+#script
+flask-script
+#db-migrate
+flask-migrate
+mysqlclient
+requests
+paramiko #remote link module
+python-jenkins #jenkins api
+click #commandline tools
+pymysql #db tools
+pinyin
+pyyaml
+uwsgi

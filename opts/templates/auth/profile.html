@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block title %}
+    User Profiles
+{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='assets/global/plugins/select2/select2.css') }}" rel="stylesheet"
+          type="text/css"/>
+{% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+
+            <div class="portlet-body form">
+
+                <form class="form-horizontal form-bordered" method="post" action="" onsubmit="show_mask()">
+
+                    <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">Username</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-user"></i>
+                            </span>
+                                <input type="text" id="username" name="username" class="form-control" readonly
+                                       value="{{ user.username }}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">NickName</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-eyeglasses"></i>
+                            </span>
+                                <input type="text" id="nickname" name="nickname" class="form-control" required
+                                       value="{{ user.display_name }}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">Password</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-speech"></i>
+                            </span>
+                                <input type="password" id="password" name="password" class="form-control" required
+                                       value="{{ user.password_hash }}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">Email</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                                <i class="icon-direction"></i>
+                            </span>
+                                <input type="text" id="email" name="email" class="form-control" readonly
+                                       value="{{ user.email }}">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">Role</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                            </span>
+                                {% if session['user']['role'] == 'admin' and  roles %}
+                                    <select class="combobox form-control input-large" name="role_id">
+                                        {% for role in roles %}
+                                            {% if role.id == user.role_id %}
+                                                <option value="{{ role.id }}" selected>{{ role.name }}</option>
+                                            {% else %}
+                                                <option value="{{ role.id }}">{{ role.name }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <select class="combobox form-control input-large" name="role_id" disabled>
+                                        <option value="{{ user.role_id }}">{{ user.role.name }}</option>
+                                    </select>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">Organize</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                            </span>
+                                {% if session['user']['role'] == 'admin' and organizes %}
+
+                                    <select class="form-control select2me" data-placeholder="请选择..." name="organize_id">
+
+                                        <option></option>
+                                        {% for organize in organizes %}
+                                            {% if user.organize_id==organize.id %}
+
+                                                <option selected value="{{ organize.id }}">
+                                                    {% if organize.parent %}
+
+                                                        {{ organize.parent.name }}/{{ organize.name }}
+                                                    {% else %}
+                                                        /{{ organize.name }}
+                                                    {% endif %}
+
+                                                </option>
+                                            {% else %}
+
+                                                <option value="{{ organize.id }}">
+                                                    {% if organize.parent %}
+
+                                                        {{ organize.parent.name }}/{{ organize.name }}
+                                                    {% else %}
+                                                        /{{ organize.name }}
+                                                    {% endif %}
+
+                                                </option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+                                {% else %}
+                                    <select class="form-control select2me" data-placeholder="请选择..." name="organize_id"
+                                            disabled>
+                                        <option value="{{ user.organize_id }}">
+                                            {% if user.organize.parent %}
+                                                {{ user.organize.parent.name }}/{{ user.organize.name }}
+                                            {% else %}
+                                                /{{ user.organize.name }}
+                                            {% endif %}
+                                        </option>
+                                    </select>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                    {% if session['user'].id == user.id or session['user'].role == 'admin' %}
+                        <div class="form-group" align="right">
+                            <div class="row">
+                                <div class="col-md-offset-4 col-md-8">
+                                    <button type="submit" class="btn btn-circle btn-success"><i
+                                            class="glyphicon glyphicon-ok"></i> 提交
+                                    </button>
+                                    <a type="button" class="btn btn-circle btn-danger"
+                                       href="{{ url_for(session['index_page']) }}">取消</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+{% block page_script %}
+    <script src="{{ url_for('static', filename='assets/global/plugins/select2/select2.min.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}
+    角色管理
+{% endblock %}
+
+{% block page_title %}
+    <h1>系统管理
+        <small>角色管理</small>
+    </h1>
+{% endblock %}
+{% block page_content %}
+    <!-- BEGIN CONTENT -->
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN EXAMPLE TABLE PORTLET-->
+            <div class="portlet box grey-cascade">
+                <div class="portlet-title">
+                    <div class="caption">角色管理</div>
+                </div>
+                <div class="portlet-body">
+                    <div class="table-toolbar">
+                        <div class="row">
+                            {% if session['user'].role == 'admin' %}
+                                <div class="col-sm-1">
+                                    <div class="btn-group">
+                                        <a id="add_role" class="btn green"
+                                           href="{{ url_for('manager.add_role') }}">
+                                            新增角色
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <table class="table table-striped table-bordered table-hover" id="role_list">
+                        <thead>
+                        <tr>
+                            <th width="20px;">No</th>
+                            <th>角色名称</th>
+                            <th>默认方法</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for role in roles %}
+                            <tr class="odd gradeX" data="{{ role.id }}">
+                                <td>{{ loop.index }}</td>
+                                <td>{{ role.name }}</td>
+                                <td>{{ role.index_page }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- END EXAMPLE TABLE PORTLET-->
+        </div>
+    </div>
+    <!-- END PAGE CONTENT-->
+{% endblock %}
+{% block page_script %}
+    <script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        $("#role_list tr").live({
+            mouseover: function () {
+                $(this).css("cursor", "pointer");
+            }
+        });
+        $("#role_list tbody").on('dblclick', 'tr', function () {
+            window.location.href = $SCRIPT_ROOT + '/manager/edit_role/' + $(this).attr('data');
+        });
+
+    </script>
+{% endblock %}
