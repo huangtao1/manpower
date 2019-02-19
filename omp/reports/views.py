@@ -127,7 +127,7 @@ def export_hour_data():
         if i == 0:
             sheet.col(i).width = 256 * 10
         sheet.col(i).width = 256 * 20
-    sheet.write_merge(0, 0, 0, len(has_hour_apps), '研发中心%s月工时报表(单位h)' % month, title_style)
+    sheet.write_merge(0, 0, 0, len(has_hour_apps) + 1, '研发中心%s月工时报表(单位h)' % month, title_style)
     sheet.write(1, 0, '姓名', body_style)
     for i in range(len(has_hour_apps)):
         sheet.write(1, i + 1, has_hour_apps[i].name, body_style)
