@@ -91,6 +91,26 @@
                         </div>
                     </div>
                     <div class="form-group">
+                        <label class="col-md-1 col-md-offset-4 control-label">Rank</label>
+                        <div class="col-md-3">
+                            <div class="input-group">
+                            <span class="input-group-addon">
+                            </span>
+                                <select id="rank" name="rank" class="combobox form-control">
+                                    {% for rank in ranks %}
+                                        {% if rank == user.rank %}
+                                            <option value="{{ rank }}" selected>{{ rank }}</option>
+                                        {% else %}
+                                            <option value="{{ rank }}">{{ rank }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group">
                         <label class="col-md-1 col-md-offset-4 control-label">Organize</label>
                         <div class="col-md-3">
                             <div class="input-group">

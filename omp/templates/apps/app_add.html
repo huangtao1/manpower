@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}
+    App增加
+{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='assets/global/plugins/select2/select2.css') }}" rel="stylesheet"
+          type="text/css"/>
+{% endblock %}
+{% block page_title %}
+    <h1>App管理
+        <small>App增加</small>
+    </h1>
+{% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN PORTLET-->
+            <div class="portlet box blue-ebonyclay">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+                    <form action="" id="app_add_form" class="horizontal-form" method='POST'
+                          onsubmit="show_mask();">
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <div class="form-group">
+                                        <label class="control-label">App名称</label>
+                                        <input type="text" id="app_name" name="app_name" class="form-control"
+                                               value="{{ app.name }}" required/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-body">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label class="control-label">描述</label>
+                                        <textarea id="desc" name="desc" class="form-control"
+                                                  rows="3" required>{{ app.desc }}</textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        {% if session['user']['role'] == 'admin' %}
+                            <div class="form-actions right" id="submit_btn">
+                        {% else %}
+                            <div class="form-actions right" id="submit_btn" hidden>
+                        {% endif %}
+                        <div class="row">
+                            <div class="col-md-offset-5 col-md-7">
+                                <button type="submit" class="btn purple"><i class="fa fa-check"></i>提交
+                                </button>
+                                <a type="button" class="btn default" href="{{ url_for('apps.all_apps') }}">取消</a>
+                            </div>
+                        </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- END PORTLET-->
+    </div>
+{% endblock %}
+{% block page_script %}
+    <script src="{{ url_for('static', filename='assets/global/plugins/select2/select2.min.js') }}"></script>
+{% endblock %}

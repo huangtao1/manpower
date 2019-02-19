@@ -2,13 +2,13 @@
 # -*- coding:utf-8 -*-
 # Created by mark.huang on 2018/6/8.
 
-from dms import create_app, db
-from dms.auth.models import User, Role
+from omp import create_app, db
+from omp.auth.models import User, Role
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 import os
 
-app = create_app(os.getenv('DMS_CONFIG') or 'default')
+app = create_app(os.getenv('OMP_CONFIG') or 'default')
 manager = Manager(app)
 migrate = Migrate(app, db)
 

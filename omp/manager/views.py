@@ -4,9 +4,9 @@
 from . import manager
 from flask_login import login_required, current_user
 from flask import redirect, url_for, render_template, request, flash, session
-from dms.auth.models import SystemParameter, Menu, Role, User, Organization
-from dms import db
-from dms.auth.views import create_menu
+from omp.auth.models import SystemParameter, Menu, Role, User, Organization
+from omp import db
+from omp.auth.views import create_menu
 from ldap3 import Server, Connection, ALL
 from config import Config
 
@@ -160,9 +160,9 @@ def set_menu_activate():
     menu_id = request.args.get('id', 0, type=int)
     activate = request.args.get('activate')
     if activate == 'Enable':
-        db.session.execute('UPDATE dms_menu SET active=1 WHERE id =%s or parent_id=%s' % (menu_id, menu_id))
+        db.session.execute('UPDATE omp_menu SET active=1 WHERE id =%s or parent_id=%s' % (menu_id, menu_id))
     elif activate == 'Disable':
-        db.session.execute('UPDATE dms_menu SET active=0 WHERE id =%s or parent_id=%s' % (menu_id, menu_id))
+        db.session.execute('UPDATE omp_menu SET active=0 WHERE id =%s or parent_id=%s' % (menu_id, menu_id))
     db.session.commit()
 
     return '{"result": true}'
@@ -203,7 +203,7 @@ def edit_role(role_id):
         all_id = [str(menu_id) for menu_id in request.form.getlist('role_menu') if menu_id]
 
         if all_id:
-            query_sql = "SELECT DISTINCT  parent_id FROM dms_menu WHERE id IN(%s)" % ','.join(all_id)
+            query_sql = "SELECT DISTINCT  parent_id FROM omp_menu WHERE id IN(%s)" % ','.join(all_id)
 
             for row in db.engine.execute(query_sql):
                 if row[0] != 'None' and row[0] != None:
@@ -415,15 +415,18 @@ def edit_user(user_id):
     user = User.query.filter(User.id == user_id).first()
     organizes = Organization.query.all()
     roles = Role.query.all()
+    ranks = SystemParameter.query.filter(SystemParameter.key == "job-rank").first().value.split(',')
     if request.method == 'POST':
         nickname = request.form.get('nickname')
         organize_id = request.form.get('organize_id')
         role_id = request.form.get('role_id')
+        rank = request.form.get('rank')
         user.display_name = nickname
         user.organize_id = organize_id if organize_id else None
         user.role_id = role_id
+        user.rank = rank
         db.session.add(user)
         db.session.commit()
         flash('信息修改成功!', 'success')
         return redirect(url_for('manager.accounts_manage'))
-    return render_template('auth/profile.html', user=user, organizes=organizes, roles=roles)
+    return render_template('auth/profile.html', user=user, organizes=organizes, roles=roles, ranks=ranks)

@@ -25,12 +25,21 @@ def create_app(config_name):
     login_manager.init_app(app)
     # 注册每个APP view对应的蓝本
     # 处理根url
-    from dms.main import main as main_blueprint
+    from omp.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
     # 登录
-    from dms.auth import auth as auth_blueprint
+    from omp.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
     # 管理
-    from dms.manager import manager as manager_blueprint
+    from omp.manager import manager as manager_blueprint
     app.register_blueprint(manager_blueprint, url_prefix='/manager')
+    # app
+    from omp.apps import apps as apps_blueprint
+    app.register_blueprint(apps_blueprint, url_prefix='/apps')
+    # 填写工时
+    from omp.hours import hours as hours_blueprint
+    app.register_blueprint(hours_blueprint, url_prefix='/hours')
+    # 工时统计
+    from omp.reports import reports as reports_blueprint
+    app.register_blueprint(reports_blueprint, url_prefix='/reports')
     return app

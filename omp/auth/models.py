@@ -4,7 +4,7 @@
 import hashlib
 from flask_login import UserMixin
 from datetime import datetime
-from dms import db, login_manager
+from omp import db, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash  # 密码加密
 from flask import request
 
@@ -13,14 +13,14 @@ class User(UserMixin, db.Model):
     """
     用户表
     """
-    __tablename__ = 'dms_user'
+    __tablename__ = 'omp_user'
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True, index=True)
     username = db.Column(db.String(128), unique=True, index=True)
     display_name = db.Column(db.String(64), nullable=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('dms_role.id'))
+    role_id = db.Column(db.Integer, db.ForeignKey('omp_role.id'))
     role = db.relationship('Role', backref=db.backref('user', order_by=id))
-    organize_id = db.Column(db.Integer, db.ForeignKey('dms_organization.id'))
+    organize_id = db.Column(db.Integer, db.ForeignKey('omp_organization.id'))
     organize = db.relationship('Organization', backref=db.backref('user', order_by=id))
     password_hash = db.Column(db.String(128))
     location = db.Column(db.String(64))
@@ -28,6 +28,7 @@ class User(UserMixin, db.Model):
     last_seen = db.Column(db.DateTime(), default=datetime.now())
     active = db.Column(db.Boolean, default=True)
     real_avatar = db.Column(db.String(128))
+    rank = db.Column(db.String(128))
 
     def __repr__(self):
         return '<User %r>' % self.username
@@ -65,7 +66,7 @@ class Role(db.Model):
     """
     角色表
     """
-    __tablename__ = 'dms_role'
+    __tablename__ = 'omp_role'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), unique=True, index=True)
     index_page = db.Column(db.String(64))
@@ -81,7 +82,7 @@ class Role(db.Model):
 class SystemParameter(db.Model):
     """系统参数表"""
 
-    __tablename__ = 'dms_parameter'
+    __tablename__ = 'omp_parameter'
 
     id = db.Column(db.Integer, primary_key=True)
     key = db.Column(db.String(64))
@@ -98,7 +99,7 @@ class SystemParameter(db.Model):
 
 class Menu(db.Model):
     """菜单"""
-    __tablename__ = 'dms_menu'
+    __tablename__ = 'omp_menu'
 
     id = db.Column(db.Integer, primary_key=True)
     menu_name = db.Column(db.String(64))
@@ -108,7 +109,7 @@ class Menu(db.Model):
     menu_desc = db.Column(db.String(64))
     active = db.Column(db.Boolean, default=True)
     is_parent = db.Column(db.Boolean, default=False)
-    parent_id = db.Column(db.Integer, db.ForeignKey('dms_menu.id'), nullable=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('omp_menu.id'), nullable=True)
     parent = db.relation('Menu', uselist=False, remote_side=[id],
                          backref=db.backref('children', order_by=menu_order))
 
@@ -120,11 +121,11 @@ class Organization(db.Model):
     """
     组织架构表
     """
-    __tablename__ = 'dms_organization'
+    __tablename__ = 'omp_organization'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), unique=True)
     is_parent = db.Column(db.Boolean, default=False)
-    parent_id = db.Column(db.Integer, db.ForeignKey('dms_organization.id'), nullable=True)
+    parent_id = db.Column(db.Integer, db.ForeignKey('omp_organization.id'), nullable=True)
     parent = db.relation('Organization', uselist=False, remote_side=[id], backref=db.backref('children'))
 
     def __repr__(self):

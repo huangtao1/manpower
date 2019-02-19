@@ -13,7 +13,8 @@ dist/
 build/
 *.egg-info/
 .idea/
-oms_log/
-oms_file/docker_yml
-oms_file/mysql_bak
-oms_service_store/
+omp_log/
+omp_file/docker_yml
+omp_file/mysql_bak
+omp_service_store/
+omp_excel/

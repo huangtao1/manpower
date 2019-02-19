@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}
+    录入工时
+{% endblock %}
+{% block head %}
+    {{ super() }}
+    <link href="{{ url_for('static', filename='assets/global/plugins/select2/select2.css') }}" rel="stylesheet"
+          type="text/css"/>
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static',filename='assets/global/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"/>
+    <link href="{{ url_for('static', filename='assets/global/css/plugins.css') }}"
+          rel="stylesheet" type="text/css"/>
+{% endblock %}
+{% block page_title %}
+    <h1>工时管理
+        <small>录入工时</small>
+    </h1>
+{% endblock %}
+{% block page_content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- BEGIN PORTLET-->
+            <div class="portlet box blue-ebonyclay">
+                <div class="portlet-title">
+                    <div class="caption">
+                        <i class="fa fa-gift"></i>
+                    </div>
+                </div>
+                <div class="portlet-body form">
+
+                    <form class="horizontal-form form-bordered" method="post" action="" onsubmit="show_mask()">
+                        <div class="form-body">
+                            <div class=" row form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label">时间</label>
+                                    <div class="input-icon">
+                                        <i class="fa fa-calendar"></i>
+                                        <input class="form-control date-picker" name="day" type="text">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="hours_div">
+                                <div class="row form-group" id="hour_1">
+                                    <div class="col-md-4">
+                                        <label class="control-label">项目</label>
+                                        <select class="form-control select2me" name="app_id_1" required>
+                                            {% for app in apps %}
+                                                <option value="{{ app.id }}">{{ app.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="control-label">工时</label>
+                                        <input class="form-control" name="spend_hour_1" type="text"
+                                               placeholder="填入在选择项目中花费的工时,单位h" oninput="clearNoNum(this)" required>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">动作</label>
+                                            <input type="button" class="form-control btn blue"
+                                                   value="添加记录" onclick="add_account()">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                        <div class="form-group">
+                                            <label class="control-label">动作</label>
+                                            <input type="button" class="form-control btn red"
+                                                   value="删除记录"
+                                                   onclick="delete_account(1)">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions right">
+                                <div class="row">
+                                    <div class="col-md-offset-4 col-md-8">
+                                        <button type="submit" class="btn btn-circle btn-success"><i
+                                                class="glyphicon glyphicon-ok"></i> 提交
+                                        </button>
+                                        <a type="button" class="btn btn-circle btn-danger"
+                                           href="{{ url_for('apps.all_apps') }}"><i
+                                                class="glyphicon glyphicon-erase"></i>取消</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+{% block page_script %}
+    <script src="{{ url_for('static', filename='assets/global/plugins/bootstrap-select/bootstrap-select.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='assets/global/plugins/select2/select2.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='assets/global/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+        jQuery(document).ready(function () {
+            $('.date-picker').datepicker({
+                rtl: Metronic.isRTL(),
+                orientation: "left",
+                autoclose: true,
+                format: "yyyy-mm-dd",
+                todayHighlight: true
+            });
+            $('.date-picker').datepicker('setDate', new Date());
+        });
+
+        function clearNoNum(obj) {
+            //先把非数字的都替换掉，除了数字和.
+            obj.value = obj.value.replace(/[^\d.]/g, "");
+            //必须保证第一个为数字而不是.
+            obj.value = obj.value.replace(/^\./g, "");
+            //保证只有出现一个.而没有多个.
+            obj.value = obj.value.replace(/\.{2,}/g, ".");
+            //保证.只出现一次，而不能出现两次以上
+            obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+            //保证 数字整数位不大于8位
+            if (parseFloat(obj.value) > 16)
+                obj.value = "";
+        }
+
+        var index = 1;
+
+        function add_account() {
+            index += 1;
+            //添加一条记录
+            $("#hours_div").append(
+                '' + '<div class="row form-group" id="hour_' + index + '">' +
+                '<div class="col-md-4">' +
+                '<label class="control-label">项目</label>' +
+                '<select class="form-control select2me" name="app_id_' + index + '" required>' +
+                '{% for app in apps %}'+
+                    '<option value="{{ app.id }}">{{ app.name }}</option>'+
+                    '{% endfor %}' +
+                '</select>' +
+                '</div>' +
+                '<div class="col-md-4">' +
+                '<label class="control-label">工时</label>' +
+                '<input class="form-control" name="spend_hour_' + index + '" type="text" placeholder="填入在选择项目中花费的工时" oninput="clearNoNum(this)" required>' +
+                '</div>' +
+                '<div class="col-sm-2">' +
+                '<div class="form-group">' +
+                '<label class="control-label">动作</label>' +
+                '<input type="button" class="form-control btn blue" value="添加记录" onclick="add_account()">' +
+                '</div>' +
+                '</div>' +
+                '<div class="col-sm-2">' +
+                '<div class="form-group">' +
+                '<label class="control-label">动作</label>' +
+                '<input type="button" class="form-control btn red" value="删除记录" onclick="delete_account(' + index + ')">' +
+                '</div>' +
+                '</div>' +
+                '</div>'
+            )
+        }
+
+        function delete_account(div_num) {
+            //删除一条记录
+            $("#hour_" + div_num).remove();
+        }
+    </script>
+{% endblock %}

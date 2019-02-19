@@ -8,7 +8,7 @@ from flask import render_template, redirect, url_for, request, current_app, flas
 from config import Config
 from .models import User, Role, Menu
 from datetime import datetime
-from dms import db
+from omp import db
 import base64
 
 
@@ -63,8 +63,9 @@ def login():
                 user.member_since = datetime.now()
                 user.last_seen = datetime.now()
                 # 初始化一个角色,后面管理员再去改
-                role = Role.query.filter(Role.name == 'admin').first()
+                role = Role.query.filter(Role.name == 'developer').first()
                 user.role = role
+                user.rank = 'normal'
                 db.session.add(user)
                 db.session.commit()
                 login_user(user, True)
@@ -129,8 +130,9 @@ def login():
                     user.member_since = datetime.now()
                     user.last_seen = datetime.now()
                     # 初始化一个角色,后面管理员再去改
-                    role = Role.query.filter(Role.name == 'admin').first()
+                    role = Role.query.filter(Role.name == 'developer').first()
                     user.role = role
+                    user.rank = 'normal'
                     db.session.add(user)
                     db.session.commit()
                     login_user(user, True)

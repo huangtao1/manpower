@@ -8,12 +8,12 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config:
     BASEDIR = basedir
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'dms@2018!#$@@@!$!smd'
+    SECRET_KEY = os.environ.get('SECRET_KEY') or 'omp@2018!#$@@@!$!pmo'
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
     SQLALCHEMY_RECORD_QUERIES = True
-    FLASKY_MAIL_SUBJECT_PREFIX = '[DMS]'
-    FLASKY_MAIL_SENDER = 'dms Admin <dms@oraro.net>'
+    FLASKY_MAIL_SUBJECT_PREFIX = '[omp]'
+    FLASKY_MAIL_SENDER = 'omp Admin <omp@oraro.net>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN')
     MAIL_SERVER = 'smtp.263.com'
     MAIL_PORT = 587
@@ -21,22 +21,26 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_TAIL = '@oraro.net'
-    DB_NAME = os.environ.get('DB_NAME') or 'dms'
+    DB_NAME = os.environ.get('DB_NAME') or 'omp'
     DB_HOST = os.environ.get('DB_HOST') or 'localhost'
     DB_USERNAME = os.environ.get('DB_USERNAME') or 'root'
     DB_PASSWORD = os.environ.get('DB_PASSWORD') or 'Aa123456'
     # 生产环境
-    PRO_DB_NAME = os.environ.get('DB_NAME') or 'dms'
+    PRO_DB_NAME = os.environ.get('DB_NAME') or 'omp'
     PRO_DB_HOST = os.environ.get('DB_HOST') or '192.168.8.240'
     PRO_DB_USERNAME = os.environ.get('DB_USERNAME') or 'root'
     PRO_DB_PASSWORD = os.environ.get('DB_PASSWORD') or '123456'
-    UTIL_FOLDER = os.path.join(basedir, 'dms/utils')
+    UTIL_FOLDER = os.path.join(basedir, 'omp/utils')
     # ldap config
     LDAP_HOST = '192.168.8.10'
     LDAP_PORT = '389'
     LDAP_ADMIN_USER = 'cn=admin,dc=oraro,dc=com'
     LDAP_PASSWD = 'oraro@123456'
     LDAP_SEARCH_BASE = 'ou=User,dc=oraro,dc=com'
+    # excel存放地址
+    EXCEL_DIR = os.path.join(BASEDIR, 'omp_excel')
+    if not os.path.exists(EXCEL_DIR):
+        os.makedirs(EXCEL_DIR)
     @staticmethod
     def init_app(app):
         pass
@@ -63,7 +67,7 @@ class DevelopmentConfig(Config):
         )
 
         # 输出到文件
-        log_file = os.path.join(basedir, 'logs', datetime.datetime.now().strftime('%Y-%m-%d'), 'dms.log')
+        log_file = os.path.join(basedir, 'logs', datetime.datetime.now().strftime('%Y-%m-%d'), 'omp.log')
         if not os.path.exists(os.path.dirname(log_file)):
             os.makedirs(os.path.dirname(log_file))
 
@@ -112,7 +116,7 @@ class ProductionConfig(Config):
         )
 
         # 输出到文件
-        log_file = os.path.join(basedir, 'logs', datetime.datetime.now().strftime('%Y-%m-%d'), 'dms.log')
+        log_file = os.path.join(basedir, 'logs', datetime.datetime.now().strftime('%Y-%m-%d'), 'omp.log')
         if not os.path.exists(os.path.dirname(log_file)):
             os.makedirs(os.path.dirname(log_file))
 

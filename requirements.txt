@@ -15,10 +15,8 @@ flask-script
 flask-migrate
 mysqlclient
 requests
-paramiko #remote link module
-python-jenkins #jenkins api
 click #commandline tools
 pymysql #db tools
-pinyin
 pyyaml
 uwsgi
+xlwt #excel
