@@ -74,6 +74,8 @@ def export_hour_data():
     total_info = {'total': float('%.1f' % apps_total)}
     # 个人数据
     for user in all_users:
+        if user.username in ['tianyong']:
+            continue
         user_hour_info = {'username': user.display_name}
         user_app_infos = []
         for has_hour_app in has_hour_apps:
@@ -89,7 +91,6 @@ def export_hour_data():
         user_total_info[user.display_name] = sum_hour
         user_hour_info['info'] = user_app_infos
         user_hour_infos.append(user_hour_info)
-    print(all_app_hours, user_hour_infos)
     # 生成Excel
     # 字体风格
     font = xlwt.Font()
