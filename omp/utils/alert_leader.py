@@ -44,7 +44,8 @@ def check_user_hour():
             no_enough_user['name'],
             no_enough_user['hour'])
     table_body = table_body + '</table><h4>请及时前往<a href="http://manpower.oraro.net">ManPower</a>填写!!!<h4>Best Regards<br/>Manpower@oraro.net</body></html>'
-    send_mail(user='huangtao', msg=table_body)
+    if len(no_enough_users) > 0:
+        send_mail(user='huangtao', msg=table_body)
 
 
 def send_mail(user, msg):
