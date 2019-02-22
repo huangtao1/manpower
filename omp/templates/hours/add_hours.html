@@ -123,6 +123,17 @@
                 obj.value = "";
         }
 
+        function check_div() {
+            var count = 0;
+            var arr = document.getElementsByTagName("div");
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i].id.indexOf("hour_") >= 0)
+                    count++;
+            }
+            return count
+
+        }
+
         var index = 1;
 
         function add_account() {
@@ -159,8 +170,15 @@
         }
 
         function delete_account(div_num) {
-            //删除一条记录
-            $("#hour_" + div_num).remove();
+            count = check_div();
+            if (count == 1) {
+                bootbox.alert('只剩一个无法再删除!!!');
+
+            }
+            else {
+                //删除一条记录
+                $("#hour_" + div_num).remove();
+            }
         }
     </script>
 {% endblock %}
