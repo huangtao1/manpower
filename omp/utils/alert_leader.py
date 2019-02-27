@@ -21,7 +21,7 @@ db_info = {'ip': '192.168.8.240', 'user': 'root', 'password': '123456', 'db_name
 def check_user_hour():
     mydb = Mydb(host=db_info['ip'], user_name=db_info['user'], password=db_info['password'], db_name=db_info['db_name'],
                 port=db_info['port'])
-    all_user_sql = "SELECT id,display_name,organize_id from omp_user"
+    all_user_sql = "SELECT id,display_name,organize_id from omp_user WHERE active=1"
     get_hour_sql = "SELECT SUM(hour) FROM omp_hours WHERE user_id={0} AND day='{1}'"
 
     all_users = mydb.search_info(all_user_sql)
