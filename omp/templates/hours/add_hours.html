@@ -119,7 +119,7 @@
             //保证.只出现一次，而不能出现两次以上
             obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
             //保证 数字整数位不大于8位
-            if (parseFloat(obj.value) > 16)
+            if (parseFloat(obj.value) > 16 || parseFloat(obj.value) < 1)
                 obj.value = "";
         }
 

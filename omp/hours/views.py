@@ -28,7 +28,10 @@ def add_hours():
                 app_id = request.form.get('app_id_' + index)
                 # 消耗时间
                 hour = request.form.get('spend_hour_' + index)
-                man_hour = ManHour()
+                # 查询是否已经有此项目记录,如果有就更新数据
+                man_hour = ManHour.query.filter(db.and_(ManHour.app_id == app_id,ManHour.user_id == current_user.id,ManHour.day == day)).first()
+                if not man_hour:
+                    man_hour = ManHour()
                 man_hour.app_id = app_id
                 man_hour.user_id = current_user.id
                 man_hour.day = day
