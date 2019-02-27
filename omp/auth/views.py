@@ -18,7 +18,7 @@ def login():
     登录模块
     """
     if request.method == 'POST':
-        username = request.form.get('username')
+        username = request.form.get('username').strip()
         password = request.form.get('password')
         password_base = base64.b64encode(password.encode('utf-8'))
         # 调用ldap进行登录认证,因为部分用户简历在dc=oraro,dc=com下面所以要做不同的处理
